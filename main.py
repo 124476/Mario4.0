@@ -99,6 +99,13 @@ player_group = pygame.sprite.Group()
 
 def generate_level(level):
     new_player, x, y = None, None, None
+    for i in range(len(level)):
+        level[i] = 10 * level[i].replace('@', '.') + level[i] + 10 * level[i].replace('@', '.')
+    a = []
+    for i in level:
+        a.append(i.replace('@', '.'))
+    level = 10 * a + level + 10 * a
+
     for y in range(len(level)):
         for x in range(len(level[y])):
             if level[y][x] == '.':
@@ -171,12 +178,12 @@ class Camera:
 
 
 camera = Camera()
-
 if __name__ == '__main__':
     pygame.init()
     pygame.display.set_caption('Движущийся круг 2')
     size = width, height = 800, 500
     screen = pygame.display.set_mode(size)
+    x, y = player.rect.x, player.rect.y
 
     running = True
     start_screen()
@@ -203,8 +210,8 @@ if __name__ == '__main__':
                 if event.key == pygame.K_DOWN:
                     if player.rect.y + CELL_SIZE < height:
                         player.update(0, 50)
-        # изменяем ракурс камеры
         screen.fill((0, 0, 0))
+        # изменяем ракурс камеры
         camera.update(player)
         # обновляем положение всех спрайтов
         for sprite in all_sprites:
