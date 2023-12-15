@@ -153,6 +153,25 @@ def start_screen():
         clock.tick(FPS)
 
 
+class Camera:
+    # зададим начальный сдвиг камеры
+    def __init__(self):
+        self.dx = 0
+        self.dy = 0
+
+    # сдвинуть объект obj на смещение камеры
+    def apply(self, obj):
+        obj.rect.x += self.dx
+        obj.rect.y += self.dy
+
+    # позиционировать камеру на объекте target
+    def update(self, target):
+        self.dx = -(target.rect.x + target.rect.w // 2 - width // 2)
+        self.dy = -(target.rect.y + target.rect.h // 2 - height // 2)
+
+
+camera = Camera()
+
 if __name__ == '__main__':
     pygame.init()
     pygame.display.set_caption('Движущийся круг 2')
@@ -184,6 +203,12 @@ if __name__ == '__main__':
                 if event.key == pygame.K_DOWN:
                     if player.rect.y + CELL_SIZE < height:
                         player.update(0, 50)
+        # изменяем ракурс камеры
+        screen.fill((0, 0, 0))
+        camera.update(player)
+        # обновляем положение всех спрайтов
+        for sprite in all_sprites:
+            camera.apply(sprite)
         tiles_group.draw(screen)
         player_group.draw(screen)
         pygame.display.flip()
