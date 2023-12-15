@@ -112,7 +112,8 @@ def generate_level(level):
     return new_player, x, y
 
 
-player, level_x, level_y = generate_level(load_level('map.txt'))
+m = input('Введите название карты: ')
+player, level_x, level_y = generate_level(load_level(m))
 
 clock = pygame.time.Clock()
 
@@ -127,7 +128,7 @@ def terminate():
 def start_screen():
     intro_text = [""]
 
-    fon = pygame.transform.scale(load_image('fon.jpg'), (500, 500))
+    fon = pygame.transform.scale(load_image('fon.jpg'), (800, 500))
     screen.blit(fon, (0, 0))
     font = pygame.font.Font(None, 30)
     text_coord = 50
@@ -155,7 +156,7 @@ def start_screen():
 if __name__ == '__main__':
     pygame.init()
     pygame.display.set_caption('Движущийся круг 2')
-    size = width, height = 500, 500
+    size = width, height = 800, 500
     screen = pygame.display.set_mode(size)
 
     running = True
